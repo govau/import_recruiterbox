@@ -1,0 +1,8 @@
+<?php
+/**
+ * Implements hook_uninstall().
+ */
+function import_recruiterbox_uninstall() {
+  db_query("DELETE FROM {config} WHERE name LIKE 'migrate.migration.import_recruiterbox%'");
+  drupal_flush_all_caches();
+}

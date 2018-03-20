@@ -1,0 +1,61 @@
+# Migration configuration for imported articles.
+id: import_recruiterbox_position
+label: Import positions from Recruiterbox
+migration_group: Drupal Import
+
+dependencies:
+  enforced:
+    module:
+      - import_recruiterbox
+
+destination:
+  plugin: entity:node
+
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: json
+
+  urls: https://jsapi.recruiterbox.com/v1/openings?client_name=ausdta
+
+  item_selector: objects
+
+  fields:
+    -
+      name: uuid
+      label: 'UUID'
+      selector: id
+    -
+      name: title
+      label: 'Title'
+      selector: title
+    -
+      name: url
+      label: 'URL'
+      selector: hosted_url
+    -
+      name: description
+      label: 'Description'
+      selector: description
+    -
+      name: city
+      label: 'City'
+      selector: /location/city
+
+  ids:
+    uuid:
+      type: string
+
+process:
+  type:
+    plugin: default_value
+    default_value: recruiterbox_position
+
+  uuid: uuid
+  title: title
+  'field_body/value': description
+  'field_body/format':
+    plugin: default_value
+    default_value: rich_text
+  field_city: city
+  field_external_link: url
