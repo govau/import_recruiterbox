@@ -41,6 +41,22 @@ source:
       name: city
       label: 'City'
       selector: /location/city
+    -
+      name: state
+      label: 'State'
+      selector: /location/state
+    -
+      name: country
+      label: 'Country'
+      selector: /location/country
+    -
+      name: position_type
+      label: 'Position type'
+      selector: position_type
+    -
+      name: allows_remote
+      label: 'Allows remote'
+      selector: allows_remote
 
   ids:
     uuid:
@@ -57,5 +73,43 @@ process:
   'field_body/format':
     plugin: default_value
     default_value: rich_text
-  field_city: city
+  field_city:
+    -
+      plugin: concat
+      source:
+        - city
+        - state
+        - country
+      delimiter: ', '
+    -
+      plugin: str_replace
+      search: ', , '
+      replace: ''
   field_external_link: url
+  field_position_type:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: position_type
+    -
+      plugin: str_replace
+      search: full_time
+      replace: Full time
+    -
+      plugin: str_replace
+      search: part_time
+      replace: Part time
+    -
+      plugin: str_replace
+      search: contract
+      replace: Contract
+  field_allows_remote:
+    -
+      plugin: str_replace
+      search: true
+      replace: 1
+      source: allows_remote
+    -
+      plugin: str_replace
+      search: false
+      replace: 0

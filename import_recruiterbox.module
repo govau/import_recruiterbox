@@ -1,0 +1,20 @@
+<?php
+
+use Drupal\migrate\MigrateExecutable;
+use Drupal\migrate\MigrateMessage;
+
+/**
+ * Implements hook_cron().
+ *
+ * Schedules a synchronization of my migration.
+ */
+
+function import_recruiterbox_cron() {
+  $manager = Drupal::service('plugin.manager.migration');
+  $migration_ids = ['import_recruiterbox_position'];
+  foreach ($migration_ids as $migration_id) {
+    $migration = $manager->createInstance($migration_id);
+    $executable = new MigrateExecutable($migration, new MigrateMessage());
+    $executable->import();
+  }
+}
