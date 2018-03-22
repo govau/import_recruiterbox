@@ -66,8 +66,11 @@ process:
   type:
     plugin: default_value
     default_value: recruiterbox_position
-
-  uuid: uuid
+  uuid:
+    plugin: skip_on_value
+    method: row
+    value: fk0hrnw
+    source: uuid
   title: title
   'field_body/value': description
   'field_body/format':
