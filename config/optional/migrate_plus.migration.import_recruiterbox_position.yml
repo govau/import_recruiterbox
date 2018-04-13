@@ -15,6 +15,7 @@ source:
   plugin: url
   data_fetcher_plugin: http
   data_parser_plugin: json
+  track_changes: 'TRUE'
 
   urls: https://jsapi.recruiterbox.com/v1/openings?client_name=ausdta
 
